@@ -1,46 +1,51 @@
-# Astro Starter Kit: Basics
+# Entertainment Web App Frontend
 
-```sh
-pnpm create astro@latest -- --template basics
-```
+Astro frontend for the Entertainment Web App. The app currently has the project-owned base layout, global styling foundation, Outfit font setup, and a temporary home placeholder while the remaining implementation phases are built.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Project Structure
 
 ```text
-/
+frontend/
 ├── public/
+│   ├── favicon.ico
 │   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+├── src/
+│   ├── layouts/
+│   │   └── BaseLayout.astro
+│   ├── pages/
+│   │   └── index.astro
+│   └── styles/
+│       ├── global.css
+│       ├── reset.css
+│       ├── tokens.css
+│       └── utilities.css
+├── astro.config.mjs
+├── package.json
+├── pnpm-lock.yaml
+└── tsconfig.json
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Future phases will add app/auth layouts, navigation, data, media components, route pages, and client-side enhancements under `src/`.
 
-## 🧞 Commands
+## Commands
 
-All commands are run from the root of the project, from a terminal:
+Run commands from this `frontend/` directory.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+| Command | Action |
+| :-- | :-- |
+| `pnpm install` | Install dependencies from the lockfile |
+| `pnpm dev` | Start the Astro dev server |
+| `pnpm astro dev --background` | Start Astro in background mode for agent workflows |
+| `pnpm astro dev status` | Check the background dev server |
+| `pnpm astro dev logs` | Read background dev server logs |
+| `pnpm astro dev stop` | Stop the background dev server |
+| `pnpm build` | Build the production site to `dist/` |
+| `pnpm preview` | Preview the production build locally |
 
-## 👀 Want to learn more?
+## Implementation Notes
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Astro version is managed through `package.json`; keep the existing Astro 7 setup.
+- Node must satisfy `>=22.12.0`.
+- Product UI typography uses Outfit via `@fontsource/outfit`.
+- Global design tokens live in `src/styles/tokens.css`.
+- Do not reintroduce Astro starter assets or starter demo components.
