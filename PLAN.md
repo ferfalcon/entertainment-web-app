@@ -17,28 +17,27 @@ The goal is to translate the current design and specification into a staged impl
 
 ## 1. Current project structure assessment
 
-The repository already contains project documentation and an Astro starter project inside `frontend/`. The implementation should adapt the existing scaffold rather than creating a second Astro app.
+Latest repo re-check shows that the repository has moved beyond the original Astro starter state. The implementation should continue from the existing `frontend/` foundation rather than re-scaffolding or repeating cleanup that has already happened.
 
 | Check | Current state | Planning impact |
 |---|---|---|
-| Repository | `ferfalcon/entertainment-web-app` exists and is public. | Continue targeting this repo. |
+| Repository | `ferfalcon/entertainment-web-app` exists, is public, and now has active commits. | Continue targeting this repo and branch from the current `main` state. |
 | Default branch | `main` is configured. | Normal branch-based workflow can be used. |
-| Commit history | The repo has commits, including an initial Astro frontend scaffold. | Do **not** treat the repo as empty. |
-| Root docs | `README.md`, `DESIGN.md`, and `SPEC.md` exist at the repo root. | Keep root docs as project documentation. Keep `PLAN.md` beside them. |
-| Astro app location | The Astro app is inside `frontend/`. | All implementation paths in this plan are under `frontend/`. |
-| Package manager | `frontend/package.json` exists. | Run install/dev/build from `frontend/` for now. |
+| Latest visible repo activity | A recent commit updated the implementation foundation and `PLAN.md`. | Treat this plan as living documentation that must be re-checked before each implementation phase. |
+| Root docs | `README.md`, `DESIGN.md`, `SPEC.md`, and `PLAN.md` exist at the repo root. | Keep root docs as the project-level documentation set. |
+| Astro app location | The Astro app is inside `frontend/`. | All Astro implementation paths in this plan remain under `frontend/`. |
+| Package manager | `frontend/package.json` exists. | Run install/dev/build from `frontend/` for now. Do not add a root workspace yet. |
 | Astro version | `frontend/package.json` uses `astro: ^7.0.7`. | Keep Astro 7. Do not re-scaffold or downgrade. |
+| Font dependency | `frontend/package.json` now includes `@fontsource/outfit`. | Outfit loading is already started; keep this approach unless intentionally changed. |
 | Node baseline | `frontend/package.json` requires `node >=22.12.0`. | Use Node 22.12+ locally and in CI/deployment. |
 | TypeScript | `frontend/tsconfig.json` extends `astro/tsconfigs/strict`. | Preserve strict TypeScript. |
-| Current home page | `frontend/src/pages/index.astro` renders starter `Welcome`. | Replace with the Entertainment Web App Home composition. |
-| Current layout | `frontend/src/layouts/Layout.astro` is starter-level and still says `Astro Basics`. | Refactor or replace with project layout files. |
-| Current starter component | `frontend/src/components/Welcome.astro` is Astro demo UI. | Delete or replace; do not build the product on top of it. |
+| Current home page | `frontend/src/pages/index.astro` now renders a project placeholder with `BaseLayout`, not the Astro `Welcome` component. | Replace the placeholder with the real Home composition when app components exist. |
+| Current base layout | `frontend/src/layouts/BaseLayout.astro` exists and imports Outfit, reset, tokens, global styles, and utilities. | Refine this layout rather than recreating the base shell from scratch. |
+| Starter layout/component | `frontend/src/layouts/Layout.astro` and `frontend/src/components/Welcome.astro` are no longer present. | Remove old cleanup tasks from the plan; avoid reintroducing starter files. |
+| Foundation styles | `reset.css`, `tokens.css`, `global.css`, and `utilities.css` exist under `frontend/src/styles/`. | Audit and extend the existing style foundation instead of creating duplicate token files. |
 | Existing dev instructions | `frontend/AGENTS.md` says to use `astro dev --background`. | Follow this workflow when running the dev server. |
-| Root workspace | No root pnpm workspace is needed now. | A root workspace will be introduced later. Do not add it in the first implementation pass. |
-
-### Repository interpretation
-
-The repo is now a usable Astro scaffold, but most frontend code is still starter/demo code. The next implementation step should **clean and reframe the existing `frontend/` app**, then add the Entertainment Web App UI system incrementally.
+| Frontend README | `frontend/README.md` still contains Astro starter documentation. | Rewrite later; this is documentation drift, not an app blocker. |
+| Root workspace | No root pnpm workspace is needed now. | A root workspace will be introduced later. Do not add it in this implementation pass. |
 
 ---
 
@@ -83,7 +82,7 @@ This plan does not cover:
 
 ## 4. Proposed project structure
 
-The implementation should build inside the existing `frontend/` Astro project.
+The implementation should build inside the existing `frontend/` Astro project and reuse the current foundation files already committed there.
 
 ```text
 entertainment-web-app/
@@ -93,20 +92,20 @@ entertainment-web-app/
 ├── PLAN.md                           [this file]
 └── frontend/
     ├── AGENTS.md                     [existing]
-    ├── README.md                     [modify later; replace starter README]
+    ├── README.md                     [modify later; replace stale starter README]
     ├── astro.config.mjs              [existing; keep minimal initially]
-    ├── package.json                  [existing; modify only if scripts/deps change]
+    ├── package.json                  [existing; Astro + @fontsource/outfit]
     ├── pnpm-lock.yaml                [existing]
     ├── tsconfig.json                 [existing; keep strict]
     ├── public/
     │   ├── favicon.svg               [existing]
     │   ├── favicon.ico               [existing]
     │   └── assets/
-    │       ├── icons/
-    │       ├── thumbnails/
-    │       └── fonts/                [optional; see font strategy]
+    │       ├── icons/                [create/populate]
+    │       ├── thumbnails/           [create/populate]
+    │       └── fonts/                [not needed while using @fontsource/outfit]
     └── src/
-        ├── assets/                   [currently starter assets; remove/replace as needed]
+        ├── assets/                   [keep empty or use only for imported build-time assets]
         ├── components/
         │   ├── app/
         │   │   ├── AppShell.astro
@@ -142,9 +141,9 @@ entertainment-web-app/
         │   ├── media.ts
         │   └── navigation.ts
         ├── layouts/
-        │   ├── BaseLayout.astro
-        │   ├── AppLayout.astro
-        │   └── AuthLayout.astro
+        │   ├── BaseLayout.astro      [existing; refine]
+        │   ├── AppLayout.astro       [create]
+        │   └── AuthLayout.astro      [create]
         ├── pages/
         │   ├── index.astro
         │   ├── movies.astro
@@ -159,10 +158,10 @@ entertainment-web-app/
         │   ├── media-images.ts
         │   └── search.ts
         ├── styles/
-        │   ├── reset.css
-        │   ├── tokens.css
-        │   ├── global.css
-        │   ├── utilities.css
+        │   ├── reset.css             [existing; audit/refine]
+        │   ├── tokens.css            [existing; audit/refine]
+        │   ├── global.css            [existing; audit/refine]
+        │   ├── utilities.css         [existing; audit/refine]
         │   └── components/
         │       ├── app-shell.css
         │       ├── auth.css
@@ -192,7 +191,7 @@ entertainment-web-app/
 - `frontend/src/types/` defines UI contracts that mirror `SPEC.md`.
 - `frontend/src/utils/` holds pure data transformation and state-priority helpers.
 - `frontend/src/scripts/` holds small progressive client-side behavior.
-- `frontend/src/styles/` holds global tokens, reset, utilities, and component CSS.
+- `frontend/src/styles/` already contains the global foundation; add component CSS without duplicating existing tokens.
 - No `search.astro` route is planned for the first pass because in-page live filtering is confirmed.
 - No root `package.json`/workspace is planned for this pass because a root pnpm workspace will be introduced later.
 
@@ -215,17 +214,21 @@ entertainment-web-app/
 
 | File | Action | Purpose |
 |---|---|---|
-| `frontend/package.json` | Keep / minor modify | Preserve Astro 7 setup; add scripts/dependencies only when needed. |
-| `frontend/pnpm-lock.yaml` | Keep | Preserve dependency lockfile. |
+| `frontend/package.json` | Keep / minor modify | Preserve Astro 7, Node baseline, scripts, and `@fontsource/outfit`; add dependencies only when needed. |
+| `frontend/pnpm-lock.yaml` | Keep | Preserve dependency lockfile after the Outfit dependency addition. |
 | `frontend/astro.config.mjs` | Keep | Minimal config is acceptable initially. |
 | `frontend/tsconfig.json` | Keep | Preserve strict Astro TypeScript config. |
 | `frontend/AGENTS.md` | Keep | Follow existing background dev-server guidance. |
-| `frontend/README.md` | Modify later | Replace starter Astro README with project-specific frontend README. |
-| `frontend/src/pages/index.astro` | Modify | Replace starter `Welcome` page with Home page composition. |
-| `frontend/src/layouts/Layout.astro` | Rename/refactor | Convert starter layout into `BaseLayout.astro` or replace with project layout files. |
-| `frontend/src/components/Welcome.astro` | Delete/replace | Starter component should not remain in production UI. |
-| `frontend/src/assets/astro.svg` | Delete if unused | Starter asset. |
-| `frontend/src/assets/background.svg` | Delete if unused | Starter asset. |
+| `frontend/README.md` | Modify later | Replace outdated Astro starter README with project-specific frontend README. |
+| `frontend/src/pages/index.astro` | Modify | Replace the current project placeholder with the Home page composition. |
+| `frontend/src/layouts/BaseLayout.astro` | Keep / refine | Existing base shell already imports Outfit and global style files. |
+| `frontend/src/styles/reset.css` | Keep / audit | Existing reset foundation. Adjust only if app needs require it. |
+| `frontend/src/styles/tokens.css` | Keep / audit | Existing design-token foundation. Extend only when component styling exposes missing tokens. |
+| `frontend/src/styles/global.css` | Keep / audit | Existing global defaults and focus-visible rule. |
+| `frontend/src/styles/utilities.css` | Keep / audit | Existing `.visually-hidden` utility. |
+| `frontend/src/layouts/Layout.astro` | No action | File is no longer present. Do not reintroduce it. |
+| `frontend/src/components/Welcome.astro` | No action | File is no longer present. Do not reintroduce it. |
+| `frontend/src/assets/astro.svg` / `background.svg` | No action | Starter assets are no longer present. Do not reintroduce them. |
 
 ### 5.3 Route pages to create or modify
 
@@ -460,28 +463,28 @@ Responsibilities:
 
 Use plain CSS with design tokens and component-scoped class naming.
 
-Recommended CSS files inside `frontend/src/styles/`:
+Existing CSS files inside `frontend/src/styles/`:
 
 1. `reset.css` — minimal modern reset.
-2. `tokens.css` — color, typography, spacing, radius, z-index, motion, and breakpoint custom properties.
-3. `global.css` — body, document defaults, font smoothing, base link/button behavior.
-4. `utilities.css` — limited utilities such as `.visually-hidden`.
-5. `components/*.css` — component and layout styling.
+2. `tokens.css` — color, typography, spacing, radius, focus, modal, motion, and viewport reference custom properties.
+3. `global.css` — document defaults, app background, Outfit font usage, base link/button behavior, and focus-visible rule.
+4. `utilities.css` — currently includes `.visually-hidden`.
+
+Add component-level CSS under `frontend/src/styles/components/` as the UI system grows.
 
 Avoid inline styles. Use CSS custom properties and classes.
 
-### 7.2 Starter CSS cleanup
+### 7.2 Existing foundation cleanup
 
-The current `Welcome.astro` contains starter/demo styles and content. Remove this file once it is no longer imported.
+The old Astro starter `Welcome.astro` and `Layout.astro` files are no longer present. The current foundation is now:
 
-The current `Layout.astro` should be replaced or refactored into `BaseLayout.astro` with:
-
-- correct project title;
+- `BaseLayout.astro` with project title handling;
+- `@fontsource/outfit` imports for weights `300` and `500`;
 - global stylesheet imports;
-- favicon links;
-- viewport meta;
-- body class hooks;
-- Outfit font loading strategy.
+- dark color scheme metadata;
+- placeholder `index.astro` smoke-test screen.
+
+Next styling work should focus on extending this foundation, not recreating it.
 
 ### 7.3 Design tokens
 
@@ -701,7 +704,7 @@ For `AuthRequiredModal`:
 - `pnpm build` succeeds.
 - `pnpm astro check` succeeds if available.
 - No root workspace is introduced in this pass.
-- Starter `Welcome` UI is removed from the rendered app.
+- Astro starter `Welcome` / `Layout` files are not reintroduced.
 
 ### 11.2 Visual/responsive checks
 
@@ -773,45 +776,72 @@ Checklist:
 
 ---
 
+
 ## 12. Incremental implementation sequence
 
-### Phase 1 — Clean and reframe the existing Astro starter
-
-Modify the existing `frontend/` app instead of creating a second app.
+### Phase 0 — Apply confirmed decisions to planning
 
 Actions:
 
-- keep `frontend/package.json`, `frontend/pnpm-lock.yaml`, `frontend/astro.config.mjs`, and `frontend/tsconfig.json`;
-- replace `frontend/src/pages/index.astro` starter composition;
-- replace or refactor `frontend/src/layouts/Layout.astro` into `BaseLayout.astro`;
-- remove `frontend/src/components/Welcome.astro` when no longer used;
-- remove unused starter assets after confirming they are not referenced;
-- update project title from `Astro Basics` to `Entertainment Web App`.
+- Treat all previously numbered assumptions as confirmed decisions.
+- Use native horizontal scroll for trending.
+- Use in-page title-only search.
+- Use `No results` as first empty-state copy.
+- Plan auth-required bookmark modal.
+- Plan profile placeholder route.
+- Keep root workspace out of this pass.
 
 Acceptance:
 
-- starter welcome screen no longer appears;
-- project still builds;
-- root route renders a project-controlled layout placeholder;
-- no duplicate Astro scaffold exists at repo root.
+- `PLAN.md` no longer blocks on resolved assumptions.
+- Remaining open questions are limited to genuinely unresolved behavior/design.
 
-### Phase 2 — Add tokens and global styling foundation
+### Phase 1 — Validate and refine the current Astro foundation
 
-Create under `frontend/src/styles/`:
+Continue from the current repo state instead of redoing starter cleanup.
+
+Actions:
+
+- run commands from `frontend/`;
+- verify install/build with the current `package.json` and lockfile;
+- keep `@fontsource/outfit`, Astro 7, and Node `>=22.12.0`;
+- keep `BaseLayout.astro` as the base shell;
+- keep the current placeholder `index.astro` only as a smoke-test screen;
+- confirm old starter files are not reintroduced;
+- document that `frontend/README.md` is stale and should be rewritten later.
+
+Acceptance:
+
+- current placeholder page still builds;
+- global styles load through `BaseLayout.astro`;
+- Outfit renders from the existing dependency;
+- no duplicate `Layout.astro` or `Welcome.astro` appears;
+- no root Astro scaffold or root pnpm workspace is added.
+
+### Phase 2 — Audit and extend the existing style foundation
+
+Work from existing files under `frontend/src/styles/`:
 
 - `reset.css`;
 - `tokens.css`;
 - `global.css`;
 - `utilities.css`.
 
-Define color, typography, spacing, radius, focus, modal, motion, and breakpoint custom properties.
+Actions:
+
+- compare existing tokens against `DESIGN.md` and `SPEC.md`;
+- add only missing tokens needed by upcoming components;
+- keep the current focus-visible and reduced-motion strategy;
+- prepare component CSS files under `frontend/src/styles/components/`;
+- avoid duplicating token names or creating parallel style systems.
 
 Acceptance:
 
 - dark background renders correctly;
-- Outfit strategy is in place;
+- Outfit strategy remains in place;
 - base focus and reduced-motion rules exist;
-- no final component layout yet.
+- token names stay aligned with `DESIGN.md`;
+- no final component layout is added in this phase.
 
 ### Phase 3 — Add typed local data and utilities
 
@@ -833,9 +863,9 @@ Acceptance:
 
 ### Phase 4 — Build layouts and navigation
 
-Create:
+Create or refine:
 
-- `BaseLayout.astro`;
+- `BaseLayout.astro` — refine existing base shell only if needed;
 - `AppLayout.astro`;
 - `AuthLayout.astro`;
 - `AppNav.astro`;
@@ -1004,7 +1034,7 @@ Compare the finished implementation against:
 Acceptance:
 
 - all deviations are documented as intentional decisions;
-- starter-code drift is removed;
+- placeholder/starter drift is removed;
 - unresolved future behavior is not accidentally implemented as final behavior.
 
 ---
