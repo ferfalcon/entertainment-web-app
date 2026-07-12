@@ -23,7 +23,7 @@ Latest repo re-check shows that the repository has moved beyond the original Ast
 |---|---|---|
 | Repository | `ferfalcon/entertainment-web-app` exists, is public, and now has active commits. | Continue targeting this repo and branch from the current `main` state. |
 | Default branch | `main` is configured. | Normal branch-based workflow can be used. |
-| Latest visible repo activity | The responsive NavBar and placeholder route shell are implemented on `feature/navbar-placeholder-pages`. | Continue with media/data work from the implemented app shell instead of recreating navigation. |
+| Latest visible repo activity | The responsive Product Card system and Home preview grid are implemented on `feature/product-card-component`. | Continue from the reusable media-card foundation instead of recreating card, grid, icon, or seed-data work. |
 | Root docs | `README.md`, `DESIGN.md`, `SPEC.md`, and `PLAN.md` exist at the repo root. | Keep root docs as the project-level documentation set. |
 | Astro app location | The Astro app is inside `frontend/`. | All Astro implementation paths in this plan remain under `frontend/`. |
 | Package manager | `frontend/package.json` exists. | Run install/dev/build from `frontend/` for now. Do not add a root workspace yet. |
@@ -31,9 +31,9 @@ Latest repo re-check shows that the repository has moved beyond the original Ast
 | Font dependency | `frontend/package.json` now includes `@fontsource/outfit`. | Outfit loading is already started; keep this approach unless intentionally changed. |
 | Node baseline | `frontend/package.json` requires `node >=22.12.0`. | Use Node 22.12+ locally and in CI/deployment. |
 | TypeScript | `frontend/tsconfig.json` extends `astro/tsconfigs/strict`. | Preserve strict TypeScript. |
-| Current home page | `frontend/src/pages/index.astro` uses `AppLayout` and the reusable NavBar with a minimal Home placeholder. | Replace only the main placeholder content when Home media components are ready. |
+| Current home page | `frontend/src/pages/index.astro` uses `AppLayout` and renders a six-item Product Card preview grid. | Extend this composition later with search and Trending; do not replace the implemented Product Card grid. |
 | Current app shell | `AppLayout.astro` composes the skip link, responsive `AppNav`, and main landmark. | Reuse this shell for app routes; do not introduce a parallel `AppShell` component. |
-| Current base layout | `frontend/src/layouts/BaseLayout.astro` imports Outfit, the global foundation, and app-shell/navigation component CSS. | Refine this layout rather than recreating the base shell from scratch. |
+| Current base layout | `frontend/src/layouts/BaseLayout.astro` imports Outfit, the global foundation, and app-shell/navigation/media component CSS. | Refine this layout rather than recreating the base shell from scratch. |
 | Starter layout/component | `frontend/src/layouts/Layout.astro` and `frontend/src/components/Welcome.astro` are no longer present. | Remove old cleanup tasks from the plan; avoid reintroducing starter files. |
 | Foundation styles | `reset.css`, `tokens.css`, `global.css`, and `utilities.css` exist under `frontend/src/styles/`. | Audit and extend the existing style foundation instead of creating duplicate token files. |
 | Existing dev instructions | `frontend/AGENTS.md` says to use `astro dev --background`. | Follow this workflow when running the dev server. |
@@ -42,16 +42,21 @@ Latest repo re-check shows that the repository has moved beyond the original Ast
 
 ### Current milestone status
 
-Completed on `feature/navbar-placeholder-pages`:
+Completed through `feature/product-card-component`:
 
 - responsive NavBar component system and typed navigation data;
 - mobile and tablet top navigation plus desktop sidebar behavior;
 - Figma-derived inline logo/navigation icons and a locally bundled avatar;
 - active route, profile current state, skip link, accessible names, and focus-visible behavior;
 - Home, Movies, TV Series, Bookmarked, and Profile placeholder routes;
-- production validation with `pnpm build` and HTTP `200` checks for all five routes.
+- reusable `ProductCard`, `ProductMeta`, `BookmarkButton`, `PlayOverlay`, and `ProductCardGrid` Astro components;
+- strict media/icon types and a six-item local media data set with 18 responsive bundled thumbnails;
+- responsive Product Card layouts at `164px`, `220px`, and `280px`, including desktop hover/focus and touch-visible Play treatments;
+- generalized inline icon support for navigation, media categories, bookmark states, and Play;
+- Home Product Card preview grid and six generated `/media/[id]` placeholder routes;
+- production validation with `pnpm build`, responsive browser checks at 375px/768px/1440px, and HTTP `200` checks for all Play destinations.
 
-The next implementation phase is media data/types and reusable media display components. Placeholder route content should remain minimal until those components are ready.
+The current implementation phase remains media display work. The regular Product Card milestone is complete; Trending, shared content-state components, search, and full route compositions remain.
 
 ---
 
@@ -67,7 +72,6 @@ The following items are still unresolved and should remain visible during implem
 6. [OPEN QUESTION] What should happen if an unauthenticated user opens the Bookmarked page directly?
 7. [OPEN QUESTION] Should there be a section-level content error state for failed media data loading, or only thumbnail-level failure states?
 8. [OPEN QUESTION] What is the final visual design of the auth-required bookmark modal? The behavior and copy are confirmed, but no modal component exists in Figma.
-9. [OPEN QUESTION] Should `Play` point to a temporary placeholder media-detail route now, or should detail links remain documented but visually out of scope until detail designs exist?
 
 ---
 
@@ -112,13 +116,10 @@ entertainment-web-app/
     ├── tsconfig.json                 [existing; keep strict]
     ├── public/
     │   ├── favicon.svg               [existing]
-    │   ├── favicon.ico               [existing]
-    │   └── assets/
-    │       ├── icons/                [create/populate]
-    │       ├── thumbnails/           [create/populate]
-    │       └── fonts/                [not needed while using @fontsource/outfit]
+    │   └── favicon.ico               [existing]
     └── src/
         ├── assets/
+        │   ├── media/                [implemented responsive Product Card thumbnails]
         │   └── navigation/
         │       └── image-avatar.png  [implemented build-time asset]
         ├── components/
@@ -127,13 +128,13 @@ entertainment-web-app/
         │   │   ├── AuthLinkRow.astro
         │   │   └── FormField.astro
         │   ├── media/
-        │   │   ├── BookmarkButton.astro
         │   │   ├── ContentSection.astro
         │   │   ├── EmptyState.astro
-        │   │   ├── MediaCard.astro
-        │   │   ├── MediaGrid.astro
-        │   │   ├── MediaMeta.astro
-        │   │   ├── PlayOverlay.astro
+        │   │   ├── ProductCard.astro  [implemented]
+        │   │   ├── ProductCardGrid.astro [implemented]
+        │   │   ├── ProductMeta.astro  [implemented]
+        │   │   ├── BookmarkButton.astro [implemented static state]
+        │   │   ├── PlayOverlay.astro  [implemented]
         │   │   ├── SkeletonCard.astro
         │   │   └── TrendingRail.astro
         │   ├── navigation/           [implemented]
@@ -146,23 +147,25 @@ entertainment-web-app/
         │   ├── search/
         │   │   └── SearchBar.astro
         │   └── ui/
-        │       ├── Icon.astro         [implemented for navigation icons]
+        │       ├── Icon.astro         [implemented shared icon system]
         │       └── PrimaryButton.astro
         ├── data/
-        │   ├── media.ts
+        │   ├── media.ts               [implemented Product Card preview data]
         │   └── navigation.ts         [implemented; includes navigation types]
         ├── layouts/
         │   ├── BaseLayout.astro      [existing; refine]
         │   ├── AppLayout.astro       [implemented]
         │   └── AuthLayout.astro      [create]
         ├── pages/
-        │   ├── index.astro            [implemented placeholder]
+        │   ├── index.astro            [implemented Product Card preview]
         │   ├── movies.astro           [implemented placeholder]
         │   ├── tv-series.astro        [implemented placeholder]
         │   ├── bookmarked.astro       [implemented placeholder]
         │   ├── login.astro
         │   ├── signup.astro
-        │   └── profile.astro          [implemented placeholder]
+        │   ├── profile.astro          [implemented placeholder]
+        │   └── media/
+        │       └── [id].astro         [implemented static placeholders]
         ├── scripts/
         │   ├── auth-required-modal.ts
         │   ├── bookmarks.ts
@@ -182,7 +185,8 @@ entertainment-web-app/
         │       └── search.css
         ├── types/
         │   ├── auth.ts
-        │   ├── media.ts
+        │   ├── icon.ts                [implemented]
+        │   ├── media.ts               [implemented Product Card contract]
         │   └── search.ts
         └── utils/
             ├── filterMedia.ts
@@ -230,8 +234,8 @@ entertainment-web-app/
 | `frontend/tsconfig.json` | Keep | Preserve strict Astro TypeScript config. |
 | `frontend/AGENTS.md` | Keep | Follow existing background dev-server guidance. |
 | `frontend/README.md` | Modify later | Replace outdated Astro starter README with project-specific frontend README. |
-| `frontend/src/pages/index.astro` | Implemented / refine later | Uses `AppLayout`; replace its minimal content when the Home media composition is built. |
-| `frontend/src/layouts/BaseLayout.astro` | Implemented / refine | Imports Outfit, global foundation styles, and app-shell/navigation styles. |
+| `frontend/src/pages/index.astro` | Implemented / refine later | Uses `AppLayout` and renders the Product Card preview grid; add Trending/search later. |
+| `frontend/src/layouts/BaseLayout.astro` | Implemented / refine | Imports Outfit, global foundation styles, and app-shell/navigation/media styles. |
 | `frontend/src/styles/reset.css` | Keep / audit | Existing reset foundation. Adjust only if app needs require it. |
 | `frontend/src/styles/tokens.css` | Extended / audit | Includes NavBar sizing/radius tokens; extend only when later components expose missing shared values. |
 | `frontend/src/styles/global.css` | Keep / audit | Existing global defaults and focus-visible rule. |
@@ -244,16 +248,17 @@ entertainment-web-app/
 
 | File | Action | Purpose |
 |---|---|---|
-| `frontend/src/pages/index.astro` | Placeholder implemented | Home shell; add discovery content in the static route phase. |
+| `frontend/src/pages/index.astro` | Product Card preview implemented | Home shell with six responsive recommended items; add remaining discovery content later. |
 | `frontend/src/pages/movies.astro` | Placeholder implemented | Movie route shell; add catalog content later. |
 | `frontend/src/pages/tv-series.astro` | Placeholder implemented | TV Series route shell; add catalog content later. |
 | `frontend/src/pages/bookmarked.astro` | Placeholder implemented | Bookmarked route shell; add grouped content later. |
 | `frontend/src/pages/login.astro` | Create | Login UI screen. |
 | `frontend/src/pages/signup.astro` | Create | Sign Up UI screen. |
 | `frontend/src/pages/profile.astro` | Placeholder implemented | App shell with the `User profile` placeholder. |
+| `frontend/src/pages/media/[id].astro` | Placeholder implemented | Generates six valid Product Card Play destinations from local media data. |
 | `frontend/src/pages/search.astro` | Do not create initially | Search is confirmed as in-page live filtering for the first pass. |
 
-[ASSUMPTION] If `Play` links need non-broken URLs before the detail page is designed, create a minimal placeholder detail route later. Otherwise, keep detail page work out of this pass.
+The temporary media-detail route is intentionally minimal. Final detail-page behavior and visual design remain out of scope.
 
 ### 5.4 Component files to create or maintain
 
@@ -266,12 +271,12 @@ entertainment-web-app/
 | `frontend/src/components/navigation/Logo.astro` | Implemented logo link targeting `/`. |
 | `frontend/src/components/search/SearchBar.astro` | Search UI and accessible search field. |
 | `frontend/src/components/media/ContentSection.astro` | Section heading + state-priority rendering slot. |
-| `frontend/src/components/media/MediaGrid.astro` | Regular responsive grid. |
-| `frontend/src/components/media/MediaCard.astro` | Regular media card. |
+| `frontend/src/components/media/ProductCardGrid.astro` | Implemented regular responsive Product Card grid. |
+| `frontend/src/components/media/ProductCard.astro` | Implemented regular media card with separate Play and bookmark controls. |
 | `frontend/src/components/media/TrendingRail.astro` | Native horizontal scrolling trending/highlighted section. |
-| `frontend/src/components/media/MediaMeta.astro` | Year/category/rating metadata. |
-| `frontend/src/components/media/BookmarkButton.astro` | Bookmark control. |
-| `frontend/src/components/media/PlayOverlay.astro` | Detail-page play affordance/link. |
+| `frontend/src/components/media/ProductMeta.astro` | Implemented year/category/rating metadata. |
+| `frontend/src/components/media/BookmarkButton.astro` | Implemented prop-driven static bookmark control and future behavior hooks. |
+| `frontend/src/components/media/PlayOverlay.astro` | Implemented accessible detail-page Play link. |
 | `frontend/src/components/media/SkeletonCard.astro` | Loading placeholder. |
 | `frontend/src/components/media/EmptyState.astro` | Lightweight `No results` empty-state message. |
 | `frontend/src/components/overlays/AuthRequiredModal.astro` | Auth-required modal for unauthenticated bookmark attempts. |
@@ -279,16 +284,17 @@ entertainment-web-app/
 | `frontend/src/components/auth/FormField.astro` | Form field with visual states and error association. |
 | `frontend/src/components/ui/PrimaryButton.astro` | Primary CTA button. |
 | `frontend/src/components/auth/AuthLinkRow.astro` | Login/Sign Up helper link row. |
-| `frontend/src/components/ui/Icon.astro` | Implemented for the four Figma-derived navigation icons; extend deliberately for later icon families. |
+| `frontend/src/components/ui/Icon.astro` | Implemented shared inline icon system for navigation and Product Card icons. |
 
 ### 5.5 Data, types, utilities, and scripts
 
 | File | Purpose |
 |---|---|
-| `frontend/src/types/media.ts` | Media item, image asset, media category, and section types. |
+| `frontend/src/types/icon.ts` | Implemented shared icon-name contract. |
+| `frontend/src/types/media.ts` | Implemented Product Card media item, responsive image asset, and category contracts. |
 | `frontend/src/types/search.ts` | Search scope and search state types. |
 | `frontend/src/types/auth.ts` | Auth form mode and field visual state types. |
-| `frontend/src/data/media.ts` | Local normalized seed data. |
+| `frontend/src/data/media.ts` | Implemented six-item normalized seed data with responsive local image imports. |
 | `frontend/src/data/navigation.ts` | Implemented navigation item definitions and their colocated type contracts. |
 | `frontend/src/utils/filterMedia.ts` | Title-only scoped live-search filtering. |
 | `frontend/src/utils/formatResultCount.ts` | Search result heading text, if needed. |
@@ -317,7 +323,7 @@ BaseLayout
     └── main content
         ├── SearchBar
         ├── ContentSection / TrendingRail
-        └── ContentSection / MediaGrid
+        └── ContentSection / ProductCardGrid
 ```
 
 Auth pages should use a separate pattern:
@@ -385,16 +391,16 @@ State priority must be explicit:
 
 The component should not allow contradictory states such as loading skeletons and populated cards at the same time.
 
-#### `MediaGrid.astro`
+#### `ProductCardGrid.astro` — Implemented
 
 Responsibilities:
 
 - render regular cards in a responsive grid;
 - maintain order from the data source;
-- provide hooks for search filtering and bookmark updates;
+- render repeated cards as a semantic list;
 - avoid sorting unless a later requirement defines sorting.
 
-#### `MediaCard.astro`
+#### `ProductCard.astro` — Implemented
 
 Responsibilities:
 
@@ -406,6 +412,15 @@ Responsibilities:
 - avoid wrapping the whole card in a link if it would create nested interactive controls.
 
 [KEY IMPLEMENTATION RISK] Media cards have both bookmark and play actions. The implementation must avoid invalid nested links/buttons and ambiguous click targets.
+
+The implemented regular-card system also includes:
+
+- `ProductMeta.astro` for year/category/rating metadata and Movie/TV icons;
+- `BookmarkButton.astro` with static prop-driven state, `aria-pressed`, and future behavior data hooks;
+- `PlayOverlay.astro` with a valid placeholder detail destination;
+- responsive local `<picture>` sources and fixed reference geometry at mobile, tablet, and desktop sizes;
+- a 44px bookmark hit target while preserving the Figma 32px visual control;
+- desktop hover/focus and touch-visible overlay behavior.
 
 #### `TrendingRail.astro`
 
@@ -768,7 +783,7 @@ Checklist:
 - `/profile` exists and displays a simple `User profile` message.
 - Avatar/profile link points to the profile placeholder.
 - Media detail visual design remains out of scope.
-- If a temporary detail route is created, it is clearly marked as placeholder content.
+- Six temporary `/media/[id]` routes are generated from Product Card data and clearly marked as placeholder content.
 
 ### 11.7 Accessibility checks
 
@@ -852,14 +867,15 @@ Acceptance:
 
 ### Phase 3 — Add typed local data and utilities
 
-Status: navigation data and its colocated type contract are implemented; media, search, auth, and utility work remains.
+Status: navigation data, shared icon types, Product Card media types, responsive image contracts, and six-item local media data are implemented. Search/auth types and pure utility work remain.
 
 Create under `frontend/src/`:
 
-- media types;
+- media types; **implemented for the Product Card contract**
+- shared icon types; **implemented**
 - navigation types; **implemented in `data/navigation.ts`**
 - search/auth types;
-- local media data;
+- local media data; **implemented with six preview items and 18 local responsive thumbnails**
 - navigation data; **implemented**
 - pure utilities for filtering, grouping, formatting, and state priority.
 
@@ -900,40 +916,52 @@ Validation completed:
 - generated pages contain the correct primary/profile `aria-current="page"` state;
 - generated output contains no client scripts or temporary Figma asset URLs.
 
-### Phase 5 — Build media display components — Next
+### Phase 5 — Build media display components — In progress
 
-Create:
+Product Card milestone completed on `feature/product-card-component`:
 
-- `MediaCard.astro`;
-- `MediaMeta.astro`;
-- `BookmarkButton.astro`;
+- `ProductCard.astro`;
+- `ProductMeta.astro`;
+- `BookmarkButton.astro` with static prop-driven state;
 - `PlayOverlay.astro`;
-- `MediaGrid.astro`;
+- `ProductCardGrid.astro`;
+- shared icon support and responsive local thumbnail data;
+- Home preview integration and placeholder Play destinations.
+
+Remaining in this phase:
+
 - `TrendingRail.astro`;
 - `ContentSection.astro`;
 - `SkeletonCard.astro`;
 - `EmptyState.astro`.
 
-Acceptance:
+Completed Product Card acceptance:
 
 - cards render static data;
+- card interactions are structurally separated;
+- responsive card geometry matches `164×110`, `220×140`, and `280×174` thumbnail references;
+- responsive image sources, bookmark states, Movie/TV metadata, hover/focus, and touch states are verified;
+- `pnpm build` succeeds and all six Play destinations return HTTP `200`.
+
+Remaining phase acceptance:
+
 - regular and trending cards are visually distinct;
 - trending rail uses native horizontal scroll;
-- card interactions are structurally separated;
 - state-priority rendering is represented;
 - skeleton and empty states can be displayed manually.
 
-### Phase 6 — Build static route pages
+### Phase 6 — Build static route pages — In progress
 
 Create or modify:
 
-- Home: `frontend/src/pages/index.astro`;
+- Home: `frontend/src/pages/index.astro`; **Product Card preview implemented; Trending/search remain**
 - Movies: `frontend/src/pages/movies.astro`;
 - TV Series: `frontend/src/pages/tv-series.astro`;
 - Bookmarked: `frontend/src/pages/bookmarked.astro`;
 - Login: `frontend/src/pages/login.astro`;
 - Sign Up: `frontend/src/pages/signup.astro`;
 - Profile placeholder: `frontend/src/pages/profile.astro`.
+- Media detail placeholders: `frontend/src/pages/media/[id].astro`; **six static routes implemented**
 
 Acceptance:
 
@@ -1025,6 +1053,13 @@ Acceptance:
 - grids and native trending rail behave correctly;
 - modal behaves correctly at mobile and desktop sizes.
 
+Product Card checkpoint completed:
+
+- exact 2/3/4-column Product Card layouts verified at 375px, 768px, and 1440px;
+- reference card and thumbnail dimensions match at each target viewport;
+- no horizontal overflow occurs;
+- production output selects the intended small/medium/large thumbnail source.
+
 ### Phase 13 — Accessibility QA pass
 
 Validate keyboard, screen-reader labels, focus, reduced motion, touch targets, modal behavior, and automated a11y checks.
@@ -1038,6 +1073,14 @@ Acceptance:
 - modal is accessible;
 - forms expose labels and supported error associations;
 - reduced motion is respected.
+
+Product Card checkpoint completed:
+
+- Play and bookmark remain separate native controls with visible focus;
+- bookmark controls expose title-specific names and `aria-pressed`;
+- repeated cards use list/article/heading semantics;
+- desktop keyboard focus reveals Play, while touch-only devices keep Play visible;
+- bookmark hit targets are 44px and decorative thumbnails/icons are hidden appropriately from assistive technology.
 
 ### Phase 14 — Final review before implementation closure
 
@@ -1061,7 +1104,6 @@ Acceptance:
 The following assumptions remain after the latest clarification:
 
 1. [ASSUMPTION] The auth-required modal can use a minimal design-system-consistent visual treatment until a modal design exists in Figma.
-2. [ASSUMPTION] If a media detail placeholder route is needed to avoid broken `Play` links, it can be minimal and explicitly marked as placeholder.
-3. [ASSUMPTION] A minimal dark image-failure fallback is acceptable until the final thumbnail failure state is designed.
-4. [ASSUMPTION] Practical CSS breakpoints may differ from exact Figma reference widths if the required behavior is correct at mobile/tablet/desktop targets.
-5. [ASSUMPTION] Any simulated authenticated bookmark state should be development/prototype behavior only and must not be presented as real auth.
+2. [ASSUMPTION] A minimal dark image-failure fallback is acceptable until the final thumbnail failure state is designed.
+3. [ASSUMPTION] Practical CSS breakpoints may differ from exact Figma reference widths if the required behavior is correct at mobile/tablet/desktop targets.
+4. [ASSUMPTION] Any simulated authenticated bookmark state should be development/prototype behavior only and must not be presented as real auth.
