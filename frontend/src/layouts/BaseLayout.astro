@@ -1,4 +1,11 @@
 ---
+import '@fontsource/outfit/300.css';
+import '@fontsource/outfit/500.css';
+import '../styles/reset.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/utilities.css';
+
 interface Props {
 	title?: string;
 }
@@ -19,41 +26,7 @@ const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
 	</head>
-	<body>
+	<body class="app-body">
 		<slot />
 	</body>
 </html>
-
-<style is:global>
-	:root {
-		color-scheme: dark;
-		background: #10141e;
-		color: #ffffff;
-		font-family:
-			system-ui,
-			-apple-system,
-			BlinkMacSystemFont,
-			'Segoe UI',
-			sans-serif;
-	}
-
-	* {
-		box-sizing: border-box;
-	}
-
-	html,
-	body {
-		margin: 0;
-		min-block-size: 100%;
-	}
-
-	body {
-		background: #10141e;
-		color: #ffffff;
-	}
-
-	:where(a:any-link, button, input, textarea, select):focus-visible {
-		outline: 3px solid #fc4747;
-		outline-offset: 3px;
-	}
-</style>

@@ -1,0 +1,158 @@
+:root {
+	/* Raw color palette */
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-blue-950: #10141e;
+	--color-blue-900: #161d2f;
+	--color-blue-500: #5a698f;
+	--color-red-500: #fc4747;
+	--color-black-0: rgb(0 0 0 / 0);
+	--color-black-75: rgb(0 0 0 / 0.75);
+
+	/* Semantic colors */
+	--color-background: var(--color-blue-950);
+	--color-surface: var(--color-blue-900);
+	--color-text-primary: var(--color-white);
+	--color-text-muted: var(--color-blue-500);
+	--color-accent: var(--color-red-500);
+	--color-error: var(--color-red-500);
+	--color-thumbnail-overlay: rgb(0 0 0 / 0.5);
+	--color-modal-backdrop: var(--color-black-75);
+
+	/* Typography */
+	--font-family-base: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--font-weight-light: 300;
+	--font-weight-medium: 500;
+	--line-height-tight: 1.25;
+	--letter-spacing-none: 0;
+
+	--type-section-title-size: 1.25rem;
+	--type-section-title-line-height: var(--line-height-tight);
+	--type-section-title-tracking: var(--letter-spacing-none);
+	--type-section-title-weight: var(--font-weight-light);
+
+	--type-search-input-size: 1rem;
+	--type-search-input-line-height: var(--line-height-tight);
+	--type-search-input-tracking: var(--letter-spacing-none);
+	--type-search-input-weight: var(--font-weight-light);
+
+	--type-featured-title-size: 0.9375rem;
+	--type-featured-title-line-height: var(--line-height-tight);
+	--type-featured-title-tracking: var(--letter-spacing-none);
+	--type-featured-title-weight: var(--font-weight-medium);
+
+	--type-featured-meta-size: 0.75rem;
+	--type-featured-meta-line-height: var(--line-height-tight);
+	--type-featured-meta-tracking: var(--letter-spacing-none);
+	--type-featured-meta-weight: var(--font-weight-light);
+
+	--type-card-title-size: 0.9375rem;
+	--type-card-title-line-height: var(--line-height-tight);
+	--type-card-title-tracking: var(--letter-spacing-none);
+	--type-card-title-weight: var(--font-weight-medium);
+
+	--type-card-meta-size: 0.75rem;
+	--type-card-meta-line-height: var(--line-height-tight);
+	--type-card-meta-tracking: var(--letter-spacing-none);
+	--type-card-meta-weight: var(--font-weight-light);
+
+	--type-form-title-size: 2rem;
+	--type-form-title-line-height: var(--line-height-tight);
+	--type-form-title-tracking: var(--letter-spacing-none);
+	--type-form-title-weight: var(--font-weight-light);
+
+	--type-form-field-size: 0.9375rem;
+	--type-form-field-line-height: var(--line-height-tight);
+	--type-form-field-tracking: var(--letter-spacing-none);
+	--type-form-field-weight: var(--font-weight-light);
+
+	--type-form-error-size: 0.8125rem;
+	--type-form-error-line-height: var(--line-height-tight);
+	--type-form-error-tracking: var(--letter-spacing-none);
+	--type-form-error-weight: var(--font-weight-light);
+
+	--type-button-label-size: 0.9375rem;
+	--type-button-label-line-height: var(--line-height-tight);
+	--type-button-label-tracking: var(--letter-spacing-none);
+	--type-button-label-weight: var(--font-weight-light);
+
+	--type-auth-helper-size: 0.9375rem;
+	--type-auth-helper-line-height: var(--line-height-tight);
+	--type-auth-helper-tracking: var(--letter-spacing-none);
+	--type-auth-helper-weight: var(--font-weight-light);
+
+	--type-link-label-size: 0.9375rem;
+	--type-link-label-line-height: var(--line-height-tight);
+	--type-link-label-tracking: var(--letter-spacing-none);
+	--type-link-label-weight: var(--font-weight-light);
+
+	--type-empty-state-size: 0.9375rem;
+	--type-empty-state-line-height: var(--line-height-tight);
+	--type-empty-state-tracking: var(--letter-spacing-none);
+	--type-empty-state-weight: var(--font-weight-light);
+
+	/* Spacing */
+	--space-0: 0;
+	--space-100: 0.5rem;
+	--space-200: 1rem;
+	--space-300: 1.5rem;
+	--space-400: 2rem;
+	--space-500: 2.5rem;
+	--space-700: 3.5rem;
+	--space-900: 4.5rem;
+	--space-1000: 5rem;
+
+	/* Sizing */
+	--size-content-narrow: 42rem;
+	--size-touch-target: 2.75rem;
+
+	/* Radius */
+	--radius-0: 0;
+	--radius-card: 0.5rem;
+	--radius-control: 0.375rem;
+	--radius-surface: 0.625rem;
+	--radius-modal: 0.5rem;
+
+	/* Focus */
+	--focus-ring-color: var(--color-accent);
+	--focus-ring-width: 0.1875rem;
+	--focus-ring-offset: 0.1875rem;
+
+	/* Modal */
+	--modal-surface-color: var(--color-surface);
+	--modal-backdrop-color: var(--color-modal-backdrop);
+	--modal-max-inline-size: 28rem;
+
+	/* Motion */
+	--motion-duration-fast: 150ms;
+	--motion-duration-base: 200ms;
+	--motion-duration-slow: 300ms;
+	--motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+	/* Viewport references only. Do not use these inside media queries. */
+	--viewport-mobile-reference: 375px;
+	--viewport-tablet-reference: 768px;
+	--viewport-desktop-reference: 1440px;
+
+	color-scheme: dark;
+}
+
+@media (min-width: 48rem) {
+	:root {
+		--type-section-title-size: 2rem;
+		--type-search-input-size: 1.5rem;
+		--type-featured-title-size: 1.5rem;
+		--type-featured-meta-size: 0.9375rem;
+		--type-card-title-size: 1.125rem;
+		--type-card-meta-size: 0.8125rem;
+		--type-empty-state-size: 1.125rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--motion-duration-fast: 1ms;
+		--motion-duration-base: 1ms;
+		--motion-duration-slow: 1ms;
+	}
+}

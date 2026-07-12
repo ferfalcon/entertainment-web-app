@@ -16,25 +16,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		display: grid;
 		min-block-size: 100svh;
 		place-items: center;
-		padding: 2rem;
+		padding: var(--space-400);
 	}
 
 	.placeholder-content {
-		max-inline-size: 42rem;
+		max-inline-size: var(--size-content-narrow);
 		text-align: center;
 	}
 
 	h1 {
 		margin: 0;
-		font-size: clamp(2rem, 8vw, 4.5rem);
-		font-weight: 300;
-		line-height: 1.1;
+		color: var(--color-text-primary);
+		font-size: var(--type-section-title-size);
+		font-weight: var(--type-section-title-weight);
+		letter-spacing: var(--type-section-title-tracking);
+		line-height: var(--type-section-title-line-height);
 	}
 
 	p {
-		margin: 1rem 0 0;
-		color: #c7d0eb;
-		font-size: 1rem;
-		line-height: 1.6;
+		margin: var(--space-200) 0 0;
+		color: var(--color-text-muted);
+		font-size: var(--type-empty-state-size);
+		font-weight: var(--type-empty-state-weight);
+		letter-spacing: var(--type-empty-state-tracking);
+		line-height: var(--type-empty-state-line-height);
 	}
 </style>

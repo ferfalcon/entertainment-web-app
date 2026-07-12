@@ -1,0 +1,37 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	min-block-size: 100%;
+}
+
+body {
+	margin: 0;
+	min-block-size: 100%;
+}
+
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd) {
+	margin-block: 0;
+}
+
+:where(ul, ol) {
+	margin-block: 0;
+	padding-inline-start: 1.5em;
+}
+
+:where(img, picture, video, canvas, svg) {
+	display: block;
+	max-inline-size: 100%;
+}
+
+:where(button, input, textarea, select) {
+	font: inherit;
+	color: inherit;
+}
+
+:where(button) {
+	cursor: pointer;
+}
