@@ -1,0 +1,19 @@
+---
+import avatar from '../../assets/navigation/image-avatar.png';
+
+interface Props {
+	href?: string;
+	isCurrent?: boolean;
+}
+
+const { href = '/profile', isCurrent = false } = Astro.props;
+---
+
+<a
+	class:list={['profile-link', { 'is-current': isCurrent }]}
+	href={href}
+	aria-label="User profile"
+	aria-current={isCurrent ? 'page' : undefined}
+>
+	<img src={avatar.src} alt="" width="40" height="40" class="profile-link__avatar" />
+</a>

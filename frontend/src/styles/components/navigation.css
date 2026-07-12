@@ -1,0 +1,115 @@
+.app-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	block-size: var(--size-nav-mobile-block);
+	inline-size: 100%;
+	overflow: visible;
+	border-radius: var(--radius-nav);
+	background: var(--color-surface);
+	padding: var(--space-100) var(--space-200);
+}
+
+.app-nav__logo {
+	display: grid;
+	flex: 0 0 var(--size-logo-inline);
+	inline-size: var(--size-logo-inline);
+	block-size: var(--size-logo-block);
+	color: var(--color-accent);
+	place-items: center;
+}
+
+.app-nav__logo svg {
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+.app-nav__list {
+	display: flex;
+	align-items: center;
+	gap: var(--space-100);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.app-nav__item {
+	display: flex;
+}
+
+.nav-icon-link {
+	display: grid;
+	flex: 0 0 var(--size-nav-icon);
+	inline-size: var(--size-nav-icon);
+	block-size: var(--size-nav-icon);
+	border-radius: var(--radius-control);
+	color: var(--color-text-muted);
+	place-items: center;
+	transition: color var(--motion-duration-fast) var(--motion-ease-standard);
+}
+
+.nav-icon-link.is-active {
+	color: var(--color-text-primary);
+}
+
+.nav-icon-link:focus-visible {
+	color: var(--color-accent);
+}
+
+.nav-icon {
+	inline-size: var(--size-nav-icon);
+	block-size: var(--size-nav-icon);
+}
+
+.profile-link {
+	display: block;
+	flex: 0 0 var(--size-avatar);
+	inline-size: var(--size-avatar);
+	block-size: var(--size-avatar);
+	border-radius: 50%;
+}
+
+.profile-link__avatar {
+	inline-size: 100%;
+	block-size: 100%;
+	border-radius: inherit;
+	object-fit: cover;
+}
+
+@media (hover: hover) {
+	.nav-icon-link:hover {
+		color: var(--color-accent);
+	}
+}
+
+@media (min-width: 48rem) {
+	.app-nav {
+		block-size: var(--size-nav-tablet-block);
+		padding: var(--space-300);
+	}
+
+	.app-nav__list {
+		gap: var(--space-400);
+	}
+}
+
+@media (min-width: 64rem) {
+	.app-nav {
+		align-self: start;
+		flex-direction: column;
+		justify-content: flex-start;
+		inline-size: var(--size-nav-desktop-inline);
+		block-size: calc(100svh - (var(--space-400) * 2));
+		padding: 2.125rem var(--space-300);
+	}
+
+	.app-nav__list {
+		flex-direction: column;
+		gap: var(--space-500);
+		margin-block-start: var(--space-1000);
+	}
+
+	.profile-link {
+		margin-block-start: auto;
+	}
+}

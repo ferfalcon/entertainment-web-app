@@ -1,44 +1,7 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import AppLayout from '../layouts/AppLayout.astro';
 ---
 
-<BaseLayout>
-	<main class="phase-one-placeholder" aria-labelledby="page-title">
-		<div class="placeholder-content">
-			<h1 id="page-title">Entertainment Web App</h1>
-			<p>Astro frontend scaffold ready for implementation.</p>
-		</div>
-	</main>
-</BaseLayout>
-
-<style>
-	.phase-one-placeholder {
-		display: grid;
-		min-block-size: 100svh;
-		place-items: center;
-		padding: var(--space-400);
-	}
-
-	.placeholder-content {
-		max-inline-size: var(--size-content-narrow);
-		text-align: center;
-	}
-
-	h1 {
-		margin: 0;
-		color: var(--color-text-primary);
-		font-size: var(--type-section-title-size);
-		font-weight: var(--type-section-title-weight);
-		letter-spacing: var(--type-section-title-tracking);
-		line-height: var(--type-section-title-line-height);
-	}
-
-	p {
-		margin: var(--space-200) 0 0;
-		color: var(--color-text-muted);
-		font-size: var(--type-empty-state-size);
-		font-weight: var(--type-empty-state-weight);
-		letter-spacing: var(--type-empty-state-tracking);
-		line-height: var(--type-empty-state-line-height);
-	}
-</style>
+<AppLayout title="Home">
+	<p class="app-shell__placeholder-text">Home page placeholder.</p>
+</AppLayout>

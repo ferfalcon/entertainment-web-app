@@ -1,0 +1,23 @@
+---
+import { primaryNavItems } from '../../data/navigation';
+import Logo from './Logo.astro';
+import NavIconLink from './NavIconLink.astro';
+import ProfileLink from './ProfileLink.astro';
+
+const pathname = Astro.url.pathname;
+const currentPath = pathname === '/' ? pathname : pathname.replace(/\/+$/, '') || '/';
+---
+
+<nav class="app-nav" aria-label="Primary">
+	<Logo />
+	<ul class="app-nav__list">
+		{
+			primaryNavItems.map((item) => (
+				<li class="app-nav__item">
+					<NavIconLink {...item} isActive={currentPath === item.href} />
+				</li>
+			))
+		}
+	</ul>
+	<ProfileLink isCurrent={currentPath === '/profile'} />
+</nav>

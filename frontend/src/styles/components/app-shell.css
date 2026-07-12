@@ -1,0 +1,67 @@
+.skip-link {
+	position: fixed;
+	inset-block-start: var(--space-100);
+	inset-inline-start: var(--space-100);
+	z-index: 10;
+	border-radius: var(--radius-control);
+	background: var(--color-text-primary);
+	color: var(--color-background);
+	padding: var(--space-100) var(--space-200);
+	font-weight: var(--font-weight-medium);
+}
+
+.app-shell {
+	display: grid;
+	min-block-size: 100svh;
+}
+
+.app-shell__main {
+	min-inline-size: 0;
+	padding: var(--space-300) var(--space-200);
+}
+
+.app-shell__main:focus-visible {
+	outline: var(--focus-ring-width) solid var(--focus-ring-color);
+	outline-offset: calc(var(--focus-ring-width) * -1);
+}
+
+.app-shell__title {
+	color: var(--color-text-primary);
+	font-size: var(--type-section-title-size);
+	font-weight: var(--type-section-title-weight);
+	letter-spacing: var(--type-section-title-tracking);
+	line-height: var(--type-section-title-line-height);
+}
+
+.app-shell__placeholder-text {
+	max-inline-size: var(--size-content-narrow);
+	margin-block-start: var(--space-200);
+	color: var(--color-text-muted);
+	font-size: var(--type-empty-state-size);
+	font-weight: var(--type-empty-state-weight);
+	letter-spacing: var(--type-empty-state-tracking);
+	line-height: var(--type-empty-state-line-height);
+}
+
+@media (min-width: 48rem) {
+	.app-shell {
+		gap: var(--space-400);
+		padding: var(--space-300);
+	}
+
+	.app-shell__main {
+		padding: 0;
+	}
+}
+
+@media (min-width: 64rem) {
+	.app-shell {
+		grid-template-columns: var(--size-nav-desktop-inline) minmax(0, 1fr);
+		gap: 2.25rem;
+		padding: var(--space-400);
+	}
+
+	.app-shell__main {
+		padding-block-start: var(--space-400);
+	}
+}
