@@ -23,7 +23,7 @@ Latest repo re-check shows that the repository has moved beyond the original Ast
 |---|---|---|
 | Repository | `ferfalcon/entertainment-web-app` exists, is public, and now has active commits. | Continue targeting this repo and branch from the current `main` state. |
 | Default branch | `main` is configured. | Normal branch-based workflow can be used. |
-| Latest visible repo activity | A recent commit updated the implementation foundation and `PLAN.md`. | Treat this plan as living documentation that must be re-checked before each implementation phase. |
+| Latest visible repo activity | The responsive NavBar and placeholder route shell are implemented on `feature/navbar-placeholder-pages`. | Continue with media/data work from the implemented app shell instead of recreating navigation. |
 | Root docs | `README.md`, `DESIGN.md`, `SPEC.md`, and `PLAN.md` exist at the repo root. | Keep root docs as the project-level documentation set. |
 | Astro app location | The Astro app is inside `frontend/`. | All Astro implementation paths in this plan remain under `frontend/`. |
 | Package manager | `frontend/package.json` exists. | Run install/dev/build from `frontend/` for now. Do not add a root workspace yet. |
@@ -31,13 +31,27 @@ Latest repo re-check shows that the repository has moved beyond the original Ast
 | Font dependency | `frontend/package.json` now includes `@fontsource/outfit`. | Outfit loading is already started; keep this approach unless intentionally changed. |
 | Node baseline | `frontend/package.json` requires `node >=22.12.0`. | Use Node 22.12+ locally and in CI/deployment. |
 | TypeScript | `frontend/tsconfig.json` extends `astro/tsconfigs/strict`. | Preserve strict TypeScript. |
-| Current home page | `frontend/src/pages/index.astro` now renders a project placeholder with `BaseLayout`, not the Astro `Welcome` component. | Replace the placeholder with the real Home composition when app components exist. |
-| Current base layout | `frontend/src/layouts/BaseLayout.astro` exists and imports Outfit, reset, tokens, global styles, and utilities. | Refine this layout rather than recreating the base shell from scratch. |
+| Current home page | `frontend/src/pages/index.astro` uses `AppLayout` and the reusable NavBar with a minimal Home placeholder. | Replace only the main placeholder content when Home media components are ready. |
+| Current app shell | `AppLayout.astro` composes the skip link, responsive `AppNav`, and main landmark. | Reuse this shell for app routes; do not introduce a parallel `AppShell` component. |
+| Current base layout | `frontend/src/layouts/BaseLayout.astro` imports Outfit, the global foundation, and app-shell/navigation component CSS. | Refine this layout rather than recreating the base shell from scratch. |
 | Starter layout/component | `frontend/src/layouts/Layout.astro` and `frontend/src/components/Welcome.astro` are no longer present. | Remove old cleanup tasks from the plan; avoid reintroducing starter files. |
 | Foundation styles | `reset.css`, `tokens.css`, `global.css`, and `utilities.css` exist under `frontend/src/styles/`. | Audit and extend the existing style foundation instead of creating duplicate token files. |
 | Existing dev instructions | `frontend/AGENTS.md` says to use `astro dev --background`. | Follow this workflow when running the dev server. |
 | Frontend README | `frontend/README.md` still contains Astro starter documentation. | Rewrite later; this is documentation drift, not an app blocker. |
 | Root workspace | No root pnpm workspace is needed now. | A root workspace will be introduced later. Do not add it in this implementation pass. |
+
+### Current milestone status
+
+Completed on `feature/navbar-placeholder-pages`:
+
+- responsive NavBar component system and typed navigation data;
+- mobile and tablet top navigation plus desktop sidebar behavior;
+- Figma-derived inline logo/navigation icons and a locally bundled avatar;
+- active route, profile current state, skip link, accessible names, and focus-visible behavior;
+- Home, Movies, TV Series, Bookmarked, and Profile placeholder routes;
+- production validation with `pnpm build` and HTTP `200` checks for all five routes.
+
+The next implementation phase is media data/types and reusable media display components. Placeholder route content should remain minimal until those components are ready.
 
 ---
 
@@ -54,7 +68,6 @@ The following items are still unresolved and should remain visible during implem
 7. [OPEN QUESTION] Should there be a section-level content error state for failed media data loading, or only thumbnail-level failure states?
 8. [OPEN QUESTION] What is the final visual design of the auth-required bookmark modal? The behavior and copy are confirmed, but no modal component exists in Figma.
 9. [OPEN QUESTION] Should `Play` point to a temporary placeholder media-detail route now, or should detail links remain documented but visually out of scope until detail designs exist?
-10. [OPEN QUESTION] What exact URL should the logo link to? The logo is confirmed as a link; Home (`/`) is the planned default unless changed.
 
 ---
 
@@ -105,11 +118,10 @@ entertainment-web-app/
     │       ├── thumbnails/           [create/populate]
     │       └── fonts/                [not needed while using @fontsource/outfit]
     └── src/
-        ├── assets/                   [keep empty or use only for imported build-time assets]
+        ├── assets/
+        │   └── navigation/
+        │       └── image-avatar.png  [implemented build-time asset]
         ├── components/
-        │   ├── app/
-        │   │   ├── AppShell.astro
-        │   │   └── PageHeader.astro
         │   ├── auth/
         │   │   ├── AuthCard.astro
         │   │   ├── AuthLinkRow.astro
@@ -124,7 +136,7 @@ entertainment-web-app/
         │   │   ├── PlayOverlay.astro
         │   │   ├── SkeletonCard.astro
         │   │   └── TrendingRail.astro
-        │   ├── navigation/
+        │   ├── navigation/           [implemented]
         │   │   ├── AppNav.astro
         │   │   ├── Logo.astro
         │   │   ├── NavIconLink.astro
@@ -134,24 +146,23 @@ entertainment-web-app/
         │   ├── search/
         │   │   └── SearchBar.astro
         │   └── ui/
-        │       ├── Icon.astro
-        │       ├── PrimaryButton.astro
-        │       └── VisuallyHidden.astro
+        │       ├── Icon.astro         [implemented for navigation icons]
+        │       └── PrimaryButton.astro
         ├── data/
         │   ├── media.ts
-        │   └── navigation.ts
+        │   └── navigation.ts         [implemented; includes navigation types]
         ├── layouts/
         │   ├── BaseLayout.astro      [existing; refine]
-        │   ├── AppLayout.astro       [create]
+        │   ├── AppLayout.astro       [implemented]
         │   └── AuthLayout.astro      [create]
         ├── pages/
-        │   ├── index.astro
-        │   ├── movies.astro
-        │   ├── tv-series.astro
-        │   ├── bookmarked.astro
+        │   ├── index.astro            [implemented placeholder]
+        │   ├── movies.astro           [implemented placeholder]
+        │   ├── tv-series.astro        [implemented placeholder]
+        │   ├── bookmarked.astro       [implemented placeholder]
         │   ├── login.astro
         │   ├── signup.astro
-        │   └── profile.astro
+        │   └── profile.astro          [implemented placeholder]
         ├── scripts/
         │   ├── auth-required-modal.ts
         │   ├── bookmarks.ts
@@ -163,16 +174,15 @@ entertainment-web-app/
         │   ├── global.css            [existing; audit/refine]
         │   ├── utilities.css         [existing; audit/refine]
         │   └── components/
-        │       ├── app-shell.css
+        │       ├── app-shell.css      [implemented]
         │       ├── auth.css
         │       ├── media.css
         │       ├── modal.css
-        │       ├── navigation.css
+        │       ├── navigation.css     [implemented]
         │       └── search.css
         ├── types/
         │   ├── auth.ts
         │   ├── media.ts
-        │   ├── navigation.ts
         │   └── search.ts
         └── utils/
             ├── filterMedia.ts
@@ -220,10 +230,10 @@ entertainment-web-app/
 | `frontend/tsconfig.json` | Keep | Preserve strict Astro TypeScript config. |
 | `frontend/AGENTS.md` | Keep | Follow existing background dev-server guidance. |
 | `frontend/README.md` | Modify later | Replace outdated Astro starter README with project-specific frontend README. |
-| `frontend/src/pages/index.astro` | Modify | Replace the current project placeholder with the Home page composition. |
-| `frontend/src/layouts/BaseLayout.astro` | Keep / refine | Existing base shell already imports Outfit and global style files. |
+| `frontend/src/pages/index.astro` | Implemented / refine later | Uses `AppLayout`; replace its minimal content when the Home media composition is built. |
+| `frontend/src/layouts/BaseLayout.astro` | Implemented / refine | Imports Outfit, global foundation styles, and app-shell/navigation styles. |
 | `frontend/src/styles/reset.css` | Keep / audit | Existing reset foundation. Adjust only if app needs require it. |
-| `frontend/src/styles/tokens.css` | Keep / audit | Existing design-token foundation. Extend only when component styling exposes missing tokens. |
+| `frontend/src/styles/tokens.css` | Extended / audit | Includes NavBar sizing/radius tokens; extend only when later components expose missing shared values. |
 | `frontend/src/styles/global.css` | Keep / audit | Existing global defaults and focus-visible rule. |
 | `frontend/src/styles/utilities.css` | Keep / audit | Existing `.visually-hidden` utility. |
 | `frontend/src/layouts/Layout.astro` | No action | File is no longer present. Do not reintroduce it. |
@@ -234,26 +244,26 @@ entertainment-web-app/
 
 | File | Action | Purpose |
 |---|---|---|
-| `frontend/src/pages/index.astro` | Modify | Home discovery page. |
-| `frontend/src/pages/movies.astro` | Create | Movie catalog page. |
-| `frontend/src/pages/tv-series.astro` | Create | TV Series catalog page. |
-| `frontend/src/pages/bookmarked.astro` | Create | Bookmarked media page. |
+| `frontend/src/pages/index.astro` | Placeholder implemented | Home shell; add discovery content in the static route phase. |
+| `frontend/src/pages/movies.astro` | Placeholder implemented | Movie route shell; add catalog content later. |
+| `frontend/src/pages/tv-series.astro` | Placeholder implemented | TV Series route shell; add catalog content later. |
+| `frontend/src/pages/bookmarked.astro` | Placeholder implemented | Bookmarked route shell; add grouped content later. |
 | `frontend/src/pages/login.astro` | Create | Login UI screen. |
 | `frontend/src/pages/signup.astro` | Create | Sign Up UI screen. |
-| `frontend/src/pages/profile.astro` | Create | Placeholder profile page with `User profile` message. |
+| `frontend/src/pages/profile.astro` | Placeholder implemented | App shell with the `User profile` placeholder. |
 | `frontend/src/pages/search.astro` | Do not create initially | Search is confirmed as in-page live filtering for the first pass. |
 
 [ASSUMPTION] If `Play` links need non-broken URLs before the detail page is designed, create a minimal placeholder detail route later. Otherwise, keep detail page work out of this pass.
 
-### 5.4 Component files to create
+### 5.4 Component files to create or maintain
 
 | Component file | Purpose |
 |---|---|
-| `frontend/src/components/app/AppShell.astro` | Wrap app navigation and content layout. |
-| `frontend/src/components/navigation/AppNav.astro` | Responsive navigation container. |
-| `frontend/src/components/navigation/NavIconLink.astro` | Single icon-only navigation link with active state. |
-| `frontend/src/components/navigation/ProfileLink.astro` | Avatar/profile link to the profile placeholder route. |
-| `frontend/src/components/navigation/Logo.astro` | Logo mark as a link, planned default target `/`. |
+| `frontend/src/layouts/AppLayout.astro` | Implemented app shell with skip link, navigation, and main content slot. |
+| `frontend/src/components/navigation/AppNav.astro` | Implemented responsive navigation container. |
+| `frontend/src/components/navigation/NavIconLink.astro` | Implemented icon-only navigation link with active state. |
+| `frontend/src/components/navigation/ProfileLink.astro` | Implemented avatar/profile link and profile current state. |
+| `frontend/src/components/navigation/Logo.astro` | Implemented logo link targeting `/`. |
 | `frontend/src/components/search/SearchBar.astro` | Search UI and accessible search field. |
 | `frontend/src/components/media/ContentSection.astro` | Section heading + state-priority rendering slot. |
 | `frontend/src/components/media/MediaGrid.astro` | Regular responsive grid. |
@@ -269,19 +279,17 @@ entertainment-web-app/
 | `frontend/src/components/auth/FormField.astro` | Form field with visual states and error association. |
 | `frontend/src/components/ui/PrimaryButton.astro` | Primary CTA button. |
 | `frontend/src/components/auth/AuthLinkRow.astro` | Login/Sign Up helper link row. |
-| `frontend/src/components/ui/Icon.astro` | Shared icon rendering strategy. |
-| `frontend/src/components/ui/VisuallyHidden.astro` | Reusable accessible-only text helper. |
+| `frontend/src/components/ui/Icon.astro` | Implemented for the four Figma-derived navigation icons; extend deliberately for later icon families. |
 
 ### 5.5 Data, types, utilities, and scripts
 
 | File | Purpose |
 |---|---|
 | `frontend/src/types/media.ts` | Media item, image asset, media category, and section types. |
-| `frontend/src/types/navigation.ts` | Navigation item types. |
 | `frontend/src/types/search.ts` | Search scope and search state types. |
 | `frontend/src/types/auth.ts` | Auth form mode and field visual state types. |
 | `frontend/src/data/media.ts` | Local normalized seed data. |
-| `frontend/src/data/navigation.ts` | Navigation item definitions. |
+| `frontend/src/data/navigation.ts` | Implemented navigation item definitions and their colocated type contracts. |
 | `frontend/src/utils/filterMedia.ts` | Title-only scoped live-search filtering. |
 | `frontend/src/utils/formatResultCount.ts` | Search result heading text, if needed. |
 | `frontend/src/utils/groupBookmarked.ts` | Split saved items into movie and TV-series sections. |
@@ -335,14 +343,13 @@ BaseLayout
 
 ### 6.2 App-level components
 
-#### `AppShell.astro`
+#### `AppLayout.astro`
 
 Responsibilities:
 
-- apply app-level layout class hooks;
-- render navigation;
-- provide content slot;
-- expose landmarks through child layout structure;
+- compose `BaseLayout` and app-level layout class hooks;
+- render the skip link and navigation;
+- provide the main content slot and labeled main landmark;
 - avoid owning data filtering or state mutation.
 
 #### `AppNav.astro`
@@ -353,7 +360,7 @@ Responsibilities:
 - expose `aria-label="Primary"` or equivalent;
 - pass active state to each `NavIconLink`;
 - render profile/avatar link;
-- render logo as a link, planned default `/`;
+- render the logo as a link to `/`;
 - avoid direct knowledge of page content.
 
 #### `SearchBar.astro`
@@ -779,7 +786,7 @@ Checklist:
 
 ## 12. Incremental implementation sequence
 
-### Phase 0 — Apply confirmed decisions to planning
+### Phase 0 — Apply confirmed decisions to planning — Completed
 
 Actions:
 
@@ -796,7 +803,7 @@ Acceptance:
 - `PLAN.md` no longer blocks on resolved assumptions.
 - Remaining open questions are limited to genuinely unresolved behavior/design.
 
-### Phase 1 — Validate and refine the current Astro foundation
+### Phase 1 — Validate and refine the current Astro foundation — Completed
 
 Continue from the current repo state instead of redoing starter cleanup.
 
@@ -806,19 +813,19 @@ Actions:
 - verify install/build with the current `package.json` and lockfile;
 - keep `@fontsource/outfit`, Astro 7, and Node `>=22.12.0`;
 - keep `BaseLayout.astro` as the base shell;
-- keep the current placeholder `index.astro` only as a smoke-test screen;
+- use the original placeholder `index.astro` only as a foundation smoke test before replacing it in Phase 4;
 - confirm old starter files are not reintroduced;
 - document that `frontend/README.md` is stale and should be rewritten later.
 
 Acceptance:
 
-- current placeholder page still builds;
+- the foundation smoke-test page built successfully before the Phase 4 route-shell replacement;
 - global styles load through `BaseLayout.astro`;
 - Outfit renders from the existing dependency;
 - no duplicate `Layout.astro` or `Welcome.astro` appears;
 - no root Astro scaffold or root pnpm workspace is added.
 
-### Phase 2 — Audit and extend the existing style foundation
+### Phase 2 — Audit and extend the existing style foundation — Completed
 
 Work from existing files under `frontend/src/styles/`:
 
@@ -845,13 +852,15 @@ Acceptance:
 
 ### Phase 3 — Add typed local data and utilities
 
+Status: navigation data and its colocated type contract are implemented; media, search, auth, and utility work remains.
+
 Create under `frontend/src/`:
 
 - media types;
-- navigation types;
+- navigation types; **implemented in `data/navigation.ts`**
 - search/auth types;
 - local media data;
-- navigation data;
+- navigation data; **implemented**
 - pure utilities for filtering, grouping, formatting, and state priority.
 
 Acceptance:
@@ -861,18 +870,19 @@ Acceptance:
 - search scopes are represented in data/types;
 - title-only filtering utility exists.
 
-### Phase 4 — Build layouts and navigation
+### Phase 4 — Build layouts and navigation — Completed 2026-07-12
 
-Create or refine:
+Implemented:
 
 - `BaseLayout.astro` — refine existing base shell only if needed;
 - `AppLayout.astro`;
-- `AuthLayout.astro`;
 - `AppNav.astro`;
 - `NavIconLink.astro`;
 - `Logo.astro`;
 - `ProfileLink.astro`;
 - `profile.astro` placeholder.
+
+`AuthLayout.astro` remains part of Phase 10 because it is not required by the app NavBar shell.
 
 Acceptance:
 
@@ -880,10 +890,17 @@ Acceptance:
 - active page state works;
 - desktop/sidebar and tablet/mobile/top-nav behavior works;
 - accessible names and `aria-current` are in place;
-- logo links to the planned default Home route;
+- logo links to the Home route (`/`);
 - profile link opens a `User profile` placeholder.
 
-### Phase 5 — Build media display components
+Validation completed:
+
+- `pnpm build` succeeds with five generated routes;
+- `/`, `/movies`, `/tv-series`, `/bookmarked`, and `/profile` return HTTP `200`;
+- generated pages contain the correct primary/profile `aria-current="page"` state;
+- generated output contains no client scripts or temporary Figma asset URLs.
+
+### Phase 5 — Build media display components — Next
 
 Create:
 
@@ -1044,8 +1061,7 @@ Acceptance:
 The following assumptions remain after the latest clarification:
 
 1. [ASSUMPTION] The auth-required modal can use a minimal design-system-consistent visual treatment until a modal design exists in Figma.
-2. [ASSUMPTION] The logo links to Home (`/`) unless a different link target is later specified.
-3. [ASSUMPTION] If a media detail placeholder route is needed to avoid broken `Play` links, it can be minimal and explicitly marked as placeholder.
-4. [ASSUMPTION] A minimal dark image-failure fallback is acceptable until the final thumbnail failure state is designed.
-5. [ASSUMPTION] Practical CSS breakpoints may differ from exact Figma reference widths if the required behavior is correct at mobile/tablet/desktop targets.
-6. [ASSUMPTION] Any simulated authenticated bookmark state should be development/prototype behavior only and must not be presented as real auth.
+2. [ASSUMPTION] If a media detail placeholder route is needed to avoid broken `Play` links, it can be minimal and explicitly marked as placeholder.
+3. [ASSUMPTION] A minimal dark image-failure fallback is acceptable until the final thumbnail failure state is designed.
+4. [ASSUMPTION] Practical CSS breakpoints may differ from exact Figma reference widths if the required behavior is correct at mobile/tablet/desktop targets.
+5. [ASSUMPTION] Any simulated authenticated bookmark state should be development/prototype behavior only and must not be presented as real auth.
