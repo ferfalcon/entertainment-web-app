@@ -1,11 +1,40 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout>
+	<main class="phase-one-placeholder" aria-labelledby="page-title">
+		<div class="placeholder-content">
+			<h1 id="page-title">Entertainment Web App</h1>
+			<p>Astro frontend scaffold ready for implementation.</p>
+		</div>
+	</main>
+</BaseLayout>
+
+<style>
+	.phase-one-placeholder {
+		display: grid;
+		min-block-size: 100svh;
+		place-items: center;
+		padding: 2rem;
+	}
+
+	.placeholder-content {
+		max-inline-size: 42rem;
+		text-align: center;
+	}
+
+	h1 {
+		margin: 0;
+		font-size: clamp(2rem, 8vw, 4.5rem);
+		font-weight: 300;
+		line-height: 1.1;
+	}
+
+	p {
+		margin: 1rem 0 0;
+		color: #c7d0eb;
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+</style>
