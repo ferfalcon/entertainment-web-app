@@ -1,0 +1,40 @@
+---
+import type { MediaItem } from '../../types/media';
+import BookmarkButton from './BookmarkButton.astro';
+import PlayOverlay from './PlayOverlay.astro';
+import ProductMeta from './ProductMeta.astro';
+
+interface Props {
+	item: MediaItem;
+	headingLevel?: 'h2' | 'h3';
+	isPriority?: boolean;
+}
+
+const { item, headingLevel = 'h3', isPriority = false } = Astro.props;
+const Heading = headingLevel;
+---
+
+<article class="product-card">
+	<div class="product-card__media">
+		<picture>
+			<source media="(min-width: 64rem)" srcset={item.thumbnail.large.src} />
+			<source media="(min-width: 48rem)" srcset={item.thumbnail.medium.src} />
+			<img
+				class="product-card__image"
+				src={item.thumbnail.small.src}
+				width={item.thumbnail.small.width}
+				height={item.thumbnail.small.height}
+				alt={item.thumbnailAlt}
+				loading={isPriority ? 'eager' : 'lazy'}
+				fetchpriority={isPriority ? 'high' : 'auto'}
+				decoding="async"
+			/>
+		</picture>
+		<PlayOverlay href={item.detailHref} title={item.title} />
+		<BookmarkButton mediaId={item.id} title={item.title} isBookmarked={item.isBookmarked} />
+	</div>
+	<div class="product-card__content">
+		<ProductMeta year={item.year} category={item.category} rating={item.rating} />
+		<Heading class="product-card__title">{item.title}</Heading>
+	</div>
+</article>

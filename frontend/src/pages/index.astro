@@ -1,7 +1,12 @@
 ---
+import ProductCardGrid from '../components/media/ProductCardGrid.astro';
+import { previewMediaItems } from '../data/media';
 import AppLayout from '../layouts/AppLayout.astro';
 ---
 
 <AppLayout title="Home">
-	<p class="app-shell__placeholder-text">Home page placeholder.</p>
+	<section class="product-preview" aria-labelledby="recommended-heading">
+		<h2 id="recommended-heading" class="product-preview__title">Recommended for you</h2>
+		<ProductCardGrid items={previewMediaItems} />
+	</section>
 </AppLayout>

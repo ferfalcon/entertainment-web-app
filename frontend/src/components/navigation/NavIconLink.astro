@@ -18,5 +18,5 @@ const { href, label, icon, isActive = false } = Astro.props;
 	aria-label={label}
 	aria-current={isActive ? 'page' : undefined}
 >
-	<Icon name={icon} />
+	<Icon name={icon} class="nav-icon" />
 </a>

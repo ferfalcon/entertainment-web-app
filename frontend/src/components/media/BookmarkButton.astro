@@ -1,0 +1,27 @@
+---
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+	mediaId: string;
+	title: string;
+	isBookmarked: boolean;
+}
+
+const { mediaId, title, isBookmarked } = Astro.props;
+---
+
+<button
+	type="button"
+	class="product-card__bookmark"
+	aria-label={`Bookmark ${title}`}
+	aria-pressed={isBookmarked}
+	data-media-id={mediaId}
+	data-bookmark-trigger
+>
+	<span class="product-card__bookmark-visual">
+		<Icon
+			name={isBookmarked ? 'bookmark-filled' : 'bookmark-outline'}
+			class="product-card__bookmark-icon"
+		/>
+	</span>
+</button>
