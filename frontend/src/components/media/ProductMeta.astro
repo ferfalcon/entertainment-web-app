@@ -1,0 +1,24 @@
+---
+import type { MediaCategory } from '../../types/media';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+	year: number;
+	category: MediaCategory;
+	rating: string;
+}
+
+const { year, category, rating } = Astro.props;
+const categoryIcon = category === 'Movie' ? 'movie' : 'tv';
+---
+
+<div class="product-card__meta">
+	<span>{year}</span>
+	<span class="product-card__separator" aria-hidden="true"></span>
+	<span class="product-card__category">
+		<Icon name={categoryIcon} class="product-card__category-icon" />
+		<span>{category}</span>
+	</span>
+	<span class="product-card__separator" aria-hidden="true"></span>
+	<span>{rating}</span>
+</div>

@@ -1,0 +1,22 @@
+---
+import { previewMediaItems } from '../../data/media';
+import AppLayout from '../../layouts/AppLayout.astro';
+import type { MediaItem } from '../../types/media';
+
+export function getStaticPaths() {
+	return previewMediaItems.map((item) => ({
+		params: { id: item.id },
+		props: { item },
+	}));
+}
+
+interface Props {
+	item: MediaItem;
+}
+
+const { item } = Astro.props;
+---
+
+<AppLayout title={item.title}>
+	<p class="app-shell__placeholder-text">Media detail placeholder.</p>
+</AppLayout>

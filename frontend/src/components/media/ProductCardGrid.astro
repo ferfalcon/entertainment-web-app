@@ -1,0 +1,14 @@
+---
+import type { MediaItem } from '../../types/media';
+import ProductCard from './ProductCard.astro';
+
+interface Props {
+	items: readonly MediaItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="product-card-grid" role="list">
+	{items.map((item, index) => <li><ProductCard item={item} isPriority={index === 0} /></li>)}
+</ul>

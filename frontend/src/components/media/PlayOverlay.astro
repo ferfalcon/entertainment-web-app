@@ -1,0 +1,16 @@
+---
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+	href: string;
+	title: string;
+}
+
+const { href, title } = Astro.props;
+---
+
+<a class="product-card__play" href={href}>
+	<Icon name="play" class="product-card__play-icon" />
+	<span>Play</span>
+	<span class="visually-hidden"> {title}</span>
+</a>
